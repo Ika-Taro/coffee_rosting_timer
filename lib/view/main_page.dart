@@ -31,18 +31,20 @@ class _MainPageBody extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('シンプルストップウォッチ'),
+          backgroundColor: Colors.black,
+          title: Text('焙煎タイマー'),
         ),
         // 再描画したい箇所だけConsumerで囲む
         body: Center(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Consumer<StopWatchModel>(
                   builder: (context, model, _) => Text(
-                    model.stopWatchTimeDisplay,
-                    style: Theme.of(context).textTheme.headline2,
-                  )),
-              Row(
+                        model.stopWatchTimeDisplay,
+                        style: Theme.of(context).textTheme.headline2,
+                      )),
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
@@ -50,22 +52,20 @@ class _MainPageBody extends StatelessWidget {
                           ? stopWatchModel.startStopWatch
                           : null,
                       child: Text('スタート')),
-                  SizedBox(
-                    width: 10,
-                  ),
                   ElevatedButton(
                       onPressed: stopWatchModel.isStopPressed
                           ? null
                           : stopWatchModel.stopStopWatch,
                       child: Text('ストップ')),
-                  SizedBox(
-                    width: 10,
-                  ),
                   ElevatedButton(
-                      onPressed: stopWatchModel.isResetPressed
-                          ? null
-                          : stopWatchModel.resetStopWatch,
-                      child: Text('リセット')),
+                    onPressed: stopWatchModel.isResetPressed
+                        ? null
+                        : stopWatchModel.resetStopWatch,
+                    child: Text('リセット'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red, //ボタンの背景色
+                    ),
+                  ),
                 ],
               ),
             ],
