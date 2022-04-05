@@ -6,10 +6,10 @@ class StopWatchModel extends ChangeNotifier {
   bool isResetPressed = true;
   bool isStartPressed = true;
 
-  String stopWatchTimeDisplay = '00:00:00:00';
+  String stopWatchTimeDisplay = '00:00:00';
   // Stopwatch型を指定
   Stopwatch swatch = Stopwatch();
-  final dul = const Duration(milliseconds: 10);
+  final dul = const Duration(seconds: 1);
 
   void startTimer() {
     Timer(dul, keepRunning);
@@ -19,15 +19,10 @@ class StopWatchModel extends ChangeNotifier {
     if (swatch.isRunning) {
       startTimer();
     }
-    int milliSeconds = ((swatch.elapsedMilliseconds / 10).floor() % 100);
-    this.stopWatchTimeDisplay =
-        (swatch.elapsed.inHours).toString().padLeft(2, '0') +
-            ':' +
-            (swatch.elapsed.inMinutes % 60).toString().padLeft(2, '0') +
-            ':' +
-            (swatch.elapsed.inSeconds % 60).toString().padLeft(2, '0') +
-            ':' +
-            (milliSeconds).toString().padLeft(2, '0');
+    int Seconds = ((swatch.elapsedMilliseconds / 10).floor() % 100);
+    this.stopWatchTimeDisplay = swatch.elapsed.inHours.toString().padLeft(2,"0") +':'
+        + (swatch.elapsed.inMinutes%60).toString().padLeft(2,"0") +':'
+        + (swatch.elapsed.inSeconds%60).toString().padLeft(2,"0") ;
     notifyListeners();
   }
 
@@ -57,7 +52,7 @@ class StopWatchModel extends ChangeNotifier {
 
     swatch.stop();
     swatch.reset();
-    stopWatchTimeDisplay = '00:00:00:00';
+    stopWatchTimeDisplay = '00:00:00';
     notifyListeners();
   }
 }
