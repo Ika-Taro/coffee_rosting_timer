@@ -1,9 +1,13 @@
-// import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+
 import 'package:coffee_rosting_timer/models/stop_watch_model.dart';
 
 class MainPage extends StatelessWidget {
+  const MainPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(title: 'provider demo', home: _ProviderWidget());
@@ -32,7 +36,7 @@ class _MainPageBody extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.green,
-          title: Text('焙煎タイマー'),
+          title: Text('i'),
         ),
         // 再描画したい箇所だけConsumerで囲む
         body: Center(
@@ -49,7 +53,7 @@ class _MainPageBody extends StatelessWidget {
                   onPressed: stopWatchModel.isStartPressed
                       ? stopWatchModel.startStopWatch
                       : null,
-                  child: Text('スタート'),
+                  child: const Text('スタート'),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.green, //ボタンの背景色
                     shape: RoundedRectangleBorder(
@@ -61,7 +65,7 @@ class _MainPageBody extends StatelessWidget {
                   onPressed: stopWatchModel.isResetPressed
                       ? null
                       : stopWatchModel.resetStopWatch,
-                  child: Text('リセット'),
+                  child: const Text('リセット'),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.red, //ボタンの背景色
                     shape: RoundedRectangleBorder(
@@ -100,3 +104,5 @@ class _MainPageBody extends StatelessWidget {
         ));
   }
 }
+
+

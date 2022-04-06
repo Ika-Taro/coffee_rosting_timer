@@ -19,17 +19,19 @@ class StopWatchModel extends ChangeNotifier {
     if (swatch.isRunning) {
       startTimer();
     }
-    int Seconds = ((swatch.elapsedMilliseconds / 10).floor() % 100);
-    this.stopWatchTimeDisplay = swatch.elapsed.inHours.toString().padLeft(2,"0") +':'
-        + (swatch.elapsed.inMinutes%60).toString().padLeft(2,"0") +':'
-        + (swatch.elapsed.inSeconds%60).toString().padLeft(2,"0") ;
+    stopWatchTimeDisplay =
+        swatch.elapsed.inHours.toString().padLeft(2, "0") +
+            ':' +
+            (swatch.elapsed.inMinutes % 60).toString().padLeft(2, "0") +
+            ':' +
+            (swatch.elapsed.inSeconds % 60).toString().padLeft(2, "0");
     notifyListeners();
   }
 
   startStopWatch() {
-    this.isStopPressed = false;
-    this.isStartPressed = false;
-    this.isResetPressed = false;
+    isStopPressed = false;
+    isStartPressed = false;
+    isResetPressed = false;
 
     swatch.start();
     startTimer();
@@ -37,22 +39,67 @@ class StopWatchModel extends ChangeNotifier {
   }
 
   stopStopWatch() {
-    this.isStopPressed = true;
-    this.isResetPressed = false;
-    this.isStartPressed = true;
+    isStopPressed = true;
+    isResetPressed = false;
+    isStartPressed = true;
 
     swatch.stop();
     notifyListeners();
   }
 
   resetStopWatch() {
-    this.isResetPressed = true;
-    this.isStartPressed = true;
-    this.isStopPressed = true;
+    isResetPressed = true;
+    isStartPressed = true;
+    isStopPressed = true;
 
     swatch.stop();
     swatch.reset();
     stopWatchTimeDisplay = '00:00:00';
     notifyListeners();
+  }
+}
+
+class MyTimer {
+  // タイマーを開始してから停止までの時間
+  final Duration _timeLimit;
+
+  // [_tick]毎に[_onTickedCallback]で通知を行う
+  final Duration _tick;
+
+  // 内部で使用するタイマー
+  Timer? _timer;
+
+  // 経過時間
+  Duration _elapsed = const Duration(seconds: 0);
+
+  MyTimer(
+      this._timeLimit,
+      this._tick,
+      );
+
+  // 経過時間を取得するgetter
+  Duration get elapsedTime => _elapsed;
+
+  // タイマーを開始するメソッド
+  void start() {
+    _timer ??= Timer.periodic(_tick, _onTicked);
+  }
+
+  // タイマーを停止するメソッド
+  // タイマーを停止した場合は[_onEndedCallback]は呼ばれない
+  void stop() {
+    if (_timer != null) {
+      _timer!.cancel();
+    }
+  }
+
+  // [_elapsed]を更新して[_onTickedCallback]を呼び出す
+  // 終了判定も行う
+  void _onTicked(Timer t) {
+    _elapsed += _tick;
+
+    if (_elapsed >= _timeLimit) {
+      t.cancel();
+    }
   }
 }
